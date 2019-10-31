@@ -132,3 +132,5 @@ def main():
     makeDrawings('koch', koch, koch_draw, 0, 6)
     makeDrawings('hilbert', hilbert, hilbert_draw, 1, 6)
     makeDrawings('sierpinski', sierpinski, sierpinski_draw, 0, 10)
+
+main()
