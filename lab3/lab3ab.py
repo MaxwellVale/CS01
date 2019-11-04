@@ -7,12 +7,20 @@ import math
 # Part A: Exercises
 # Ex A.1
 def list_reverse(lst):
+    '''
+    Returns the reverse of list lst without modifying it
+    Uses the reverse() function
+    '''
     copy = lst.copy()
     copy.reverse()
     return copy
 
 # Ex A.2
 def list_reverse2(lst):
+    '''
+    Returns the reverse of list lst without modifying it
+    Does not use the reverse() function
+    '''
     copy = []
     for index in range(len(lst) - 1, -1, -1):
         copy.append(lst[index])
@@ -20,6 +28,10 @@ def list_reverse2(lst):
 
 # Ex A.3
 def file_info(fileName):
+    '''
+    Will take the name of a file (fileName) and gives back file info
+    Returns the lines, words, and characters of the file fileName as a tuple
+    '''
     f = open(fileName, 'r')
     lines = 0
     words = 0
@@ -36,6 +48,10 @@ def file_info(fileName):
 
 # Ex A.4
 def file_info2(fileName):
+    '''
+    Will take the name of a file (fileName) and gives back file info
+    Returns the lines, words, and characters of the file "fileName" in a dictionary
+    '''
     lwc = file_info(fileName)
     d = {"lines" : lwc[0],
          "words" : lwc[1],
@@ -44,6 +60,10 @@ def file_info2(fileName):
 
 # Ex A.5
 def longest_line(fileName):
+    '''
+    Reads through file "fileName" and finds the longest line.
+    Returns the len of the longest line and the line itself in a tuple.
+    '''
     f = open(fileName, 'r')
     longest = f.readline()
     line = ' '
@@ -57,6 +77,11 @@ def longest_line(fileName):
 
 # Ex A.6
 def sort_words(str):
+    '''
+    Sorts the words in a string alphabetically
+    Takes in a string of words, str.
+    Returns a list of the words sorted alphabetically.
+    '''
     sorted = str.split()
     sorted.sort()
     return sorted
@@ -69,6 +94,10 @@ def sort_words(str):
 
 # Ex A.8
 def binaryToDecimal(binList):
+    '''
+    Takes a list of binary digits, binList, and converts it to a decimal
+    Returns the decimal equivalent of binList
+    '''
     copy = binList.copy()
     copy.reverse()
     dec = 0
@@ -79,6 +108,10 @@ def binaryToDecimal(binList):
 
 # Ex A.9
 def decimalToBinary(n):
+    '''
+    Takes a decimal number, n, and converts it to binary.
+    Returns a list of single binary digits representing the binary equivalent of n.
+    '''
     if n == 0:
         return [0]
 

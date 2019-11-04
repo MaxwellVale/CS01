@@ -46,6 +46,10 @@ sierpinski_draw = { 'F' : 'F 1',
 # ----------------------------------------------------------------------
 
 def update(LDict, LString):
+    '''
+    Generates the next version of LString by applying the rules in LDict
+    Returns the updates version of LString
+    '''
     updated = ''
     for char in LString:
         if char in LDict:
@@ -56,7 +60,10 @@ def update(LDict, LString):
 
 
 def iterate(lsys, n):
-    '''<docstring>'''
+    '''
+    Updates the starting string of lsys n times.
+    Returns the updates start string.
+    '''
     LString = lsys['start']
     for i in range(n):
         LString = update(lsys, LString)
@@ -64,7 +71,9 @@ def iterate(lsys, n):
 
 
 def lsystemToDrawingCommands(draw, s):
-    '''<docstring>'''
+    '''
+    Generates a list of drawing commands based on the string s
+    '''
     commands = []
     for char in s:
         if char in draw:
@@ -73,7 +82,10 @@ def lsystemToDrawingCommands(draw, s):
 
 
 def bounds(cmds):
-    '''<docstring>'''
+    '''
+    Takes a list of commands, cmds, and computes the bounding coordinates of the resulting drawing.
+    Returns the minimum and maximum x and y coordinates in a tuple.
+    '''
     x = 0
     y = 0
     angle = 0
@@ -96,7 +108,10 @@ def bounds(cmds):
     return (float(xmin), float(xmax), float(ymin), float(ymax))
 
 def nextLocation(x, y, angle, cmd):
-    '''<docstring>'''
+    '''
+    Takes the current x, y, and angle of the drawing turtle and movement command.
+    Generates and returns the updates x, y, and angle depending on the command.
+    '''
     command = cmd.split()
     if command[0] == 'F':
         x += math.cos(angle * math.pi / 180)
@@ -110,7 +125,9 @@ def nextLocation(x, y, angle, cmd):
         return (float(x), float(y), angle % 360)
 
 def saveDrawing(filename, bounds, cmds):
-    '''<docstring>'''
+    '''
+    Writes the bounds and the drawing commands, cmds, to the file, fileName. 
+    '''
     f = open(filename, 'w')
     for b in bounds:
         f.write(str(b) + ' ')
