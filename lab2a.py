@@ -219,11 +219,27 @@ def any_in(l1, l2):
 # return lst (if you want)
 
 # Ex C.1.f
-# The fault in the code is at the last line list.append(letters). The
-# list.append(item) function takes the item and adds it as the last element
-# in list. Thus, list.append(letters) will result in list having the entirety
-# of letters as its last element, as opposed to combining the two lists.
-# list += letters
+# There are two main faults in this code. Firstly, the name of the list
+# argument is "list". Due to this, the conversion of str to a list written
+# as list(str) will reference the argument "list" instead of the list()
+# function in python. Since an object cannot be called, an error arises.
+# Secondly, the append() method for lists adds the entire argument passed to
+# append() as the last argument in the list. So, instead of appending the
+# letters to the end of the list as individual elements, the entire list
+# of new letters is added as a single element to the end of the argument list.
+# To fix:
+# def append_string_letters_to_list(lst, str):
+#     '''
+#     This function converts a string 'str' to a list and appends
+#     the letters of the string to the list 'list'.
+#     Example:
+#     >>> s = ['a', 'b']
+#     >>> append_string_letters_to_list(s, 'cdef')
+#     >>> s
+#     ['a', 'b', 'c', 'd', 'e', 'f']
+#     '''
+#     letters = list(str)
+#     lst += letters 
 
 # Ex C.2
 # When variable c is defined, the right side of the assignment reads b + a.
