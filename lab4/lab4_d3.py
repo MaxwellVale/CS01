@@ -13,11 +13,23 @@ from tkinter import *
 # Drawing Functions
 # Ex B.1
 def random_size(a, b):
-    '''docstring'''
+    '''
+    Function random_size
+    Takes two non-negative integers and returns a random even integer
+    which is between the two arguments. Uses the randint function from
+    the random module.
+
+    Arguments
+    a, b --> Both non-negative even integers and a < b.
+
+    Return
+    Returns a random even integer which is >= a and <= b.
+    '''
     assert (a >= 0 and b >= 0), "Arguments should be non-negative."
     assert (a % 2 == 0 and b % 2 == 0), "Arguments should be even."
     assert (a < b), "First argument must be smaller than the second."
     num = random.randint(a, b)
+    # If the number isn't even, then add or subtract 1 from the number.
     if num % 2 != 0:
         num += random.choice([-1, 1])
     assert (num % 2 == 0), "Output should be even."
@@ -25,13 +37,34 @@ def random_size(a, b):
 
 # Ex B.2
 def random_position(max_x, max_y):
-    '''docstring'''
+    '''
+    Function random_position
+    Takes two non-negative integers representing a maximum x and y coordinate
+    and gives a tuple of a random coordinate pair (in pixels).
+
+    Arguments
+    max_x, max_y --> Both non-negative integers
+
+    Return
+    Returns a random (x, y) pair as a tuple such that 0 <= x <= max_x and
+    0 <= y <= max_y.
+    '''
     assert (max_x >= 0 and max_y >= 0), "Arguments should be non-negative."
     return (random.randint(0, max_x), random.randint(0, max_y))
 
 # Ex B.3
 def random_color():
-    '''docstring'''
+    '''
+    Function random_color
+    Generates random colors of the form #RRGGBB
+
+    Arguments
+    No arguments
+
+    Return
+    Returns a random color as a string in the form ""#RRGGBB", where
+    each character in "RRGGBB" is a hexadecimal digit.
+    '''
     hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f']
     c = '#'
     for i in range(6):
@@ -40,12 +73,33 @@ def random_color():
 
 # Ex B.4
 def count_values(dict):
-    '''docstring'''
+    '''
+    Function count_values
+    Counts the number of unique values in dict.
+
+    Arguments
+    dict --> A dictionary
+
+    Return
+    Returns an integer representing the number of unique values
+    in dict.
+    '''
     return len(set(dict.values()))
 
 # Ex B.5
 def remove_value(dict, value):
-    '''docstring'''
+    '''
+    Function remove_value
+    Removes all entries in dict with argument "value" as its value.
+    If there is no such "value" in dict, then the function does nothing.
+
+    Arguments
+    dict --> A dictionary
+    value --> An arbitrary item which may or may not be a value in dict.
+
+    Return
+    Function does not return anything.
+    '''
     keys = list(dict.keys())
     removals = []
     for key in keys:
@@ -56,9 +110,25 @@ def remove_value(dict, value):
 
 # Ex B.6
 def split_dict(dict):
-    '''docstring'''
-    aTom = {}
-    nToz = {}
+    '''
+    Function split_dict
+    Takes a dictionary and splits it based on the order of the keys in
+    the alphabet. If the keys start with the letters a-m, then they go
+    into the first dictionary. Keys that start with letters n-z go into
+    the second dictionary. Keys retain their values from the original
+    dictionary.
+
+    Arguments
+    dict --> Dictionary which uses strings as keys.
+
+    Return
+    Returns a tuple of two dictionaries with key/value pairs from the
+    original dictionary. The first dictionary in the tuple contains pairs
+    whose keys start with the letters a-m, while the other dictionary has
+    pairs with keys that start with the letters n-z.
+    '''
+    aTom = {} # Dictionary with keys starting with letters a-m
+    nToz = {} # Dictionary with keys starting with letters n-z
     keys = list(dict.keys())
     for key in keys:
         if key.lower() < 'n':
@@ -69,7 +139,16 @@ def split_dict(dict):
 
 # Ex B.7
 def count_duplicates(dict):
-    '''docstring'''
+    '''
+    Function count_duplicates
+    Counts the number of duplicate values in the dictionary.
+
+    Arguments
+    dict --> A dictionary.
+
+    Return
+    Returns the number of duplicate values in dict.
+    '''
     duplicates = set()
     values = list(dict.values())
     for value in values:
@@ -78,7 +157,22 @@ def count_duplicates(dict):
     return len(duplicates)
 
 def draw_square(canvas, color, sideLen, center):
-    '''docstring'''
+    '''
+    Function draw_square
+    Draws a square on canvas of size sideLen, centered at center,
+    and filled with color.
+
+    Arguments
+    canvas --> The canvas on which the square will be drawn.
+    color --> The fill and outline color of the square.
+    sideLen --> The side length of the square in pixels.
+    center --> The position of the center of the square. Represented as a
+    tuple in the form (x, y), representing the horizontal and vertical position
+    of the center.
+
+    Return
+    Returns the handle of the square that was drawn on the canvas.
+    '''
     return canvas.create_rectangle(center[0] - sideLen / 2, center[1] - sideLen / 2, \
                                    center[0] + sideLen / 2, center[1] + sideLen / 2, \
                                    fill=color, outline=color)
@@ -86,11 +180,9 @@ def draw_square(canvas, color, sideLen, center):
 if __name__ == '__main__':
     root = Tk()
     root.geometry('800x800')
-
     c = Canvas(root, width=800, height=800)
-    c.focus_set()
-    c.bind('q', quit)
     c.pack()
+    root.bind('<q>', quit)
 
     for i in range(50):
         color = random_color()
