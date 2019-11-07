@@ -126,7 +126,7 @@ def nextLocation(x, y, angle, cmd):
 
 def saveDrawing(filename, bounds, cmds):
     '''
-    Writes the bounds and the drawing commands, cmds, to the file, fileName. 
+    Writes the bounds and the drawing commands, cmds, to the file, fileName.
     '''
     f = open(filename, 'w')
     for b in bounds:
@@ -150,4 +150,5 @@ def main():
     makeDrawings('hilbert', hilbert, hilbert_draw, 1, 6)
     makeDrawings('sierpinski', sierpinski, sierpinski_draw, 0, 10)
 
-main()
+if __name__ == '__main__':
+    main()
