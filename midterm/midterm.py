@@ -1,13 +1,112 @@
-# Name:
-# CMS cluster login:
+# Name: Maxwell Vale
+# CMS cluster login: mvale
 
 import random, sys, time
 
-# Pitfalls section omitted.
+# ----------------------------------------------------------------------
+# Part 1: Pitfalls
+# ----------------------------------------------------------------------
 
-# ---------------------------------------------------------------------- 
+# Problem 1.1
+# def fiblist('n'):
+#    'Return a list of all fibonacci numbers (starting from 0, 1) which are
+#    less than n.  Assume n is a non-negative integer.'
+#     if n = 0:
+#         return []
+#     elif n <= 1:
+#         return [0]
+#     else:
+#         fibs = [0, 1]
+#         while True
+#             fib_next = fibs[-1] + fibs[-2]
+#             if fib_next >= n:
+#                 return fibs
+#             fibs.append(fib_next)
+#
+# Syntax Errors:
+# 1. def fiblist('n') --> The arguments for the function should be written as
+# variables, meaning it should not be surrounded by quotes. Having the argument
+# in quotes means that the references to a variable n won't work.
+# 2. Docstring --> The docstring runs over multiple lines, yet it only uses
+# single quotes to do so. Instead triple quotes should be used to have a string
+# span over multiple lines.
+# 3. if n = 0: --> The if statement is supposed to check the truth value of
+# some boolean statement passed to it. n = 0 is assigning the variable n to have
+# the value of 0 instead of checking its equality with 0. The code should read
+# if n == 0: instead.
+# 4. while True --> There is no colon following the end of this while loop. \
+# 5. Unreachable code --> After the final return statement, there is another
+# line of code that should be run because it isn't inside of another else:. So,
+# this last line cannot be run when the if statement above is finally satisfied.
+
+# Problem 1.2
+# def obfuscate(line):
+#     '''
+#     Obfuscate a line by changing some punctuation to spaces,
+#     permuting the vowels, and replacing some characters with #s.
+#     '''
+#
+#     substitutions = {
+#       'a' : 'e',
+#       'e' : 'i',
+#       'i' : 'o',
+#       'o' : 'u',
+#       'u' : 'a',
+#       ['v', 'x', 'z', 'j', 'q'] : '#',
+#       [',', '.', '?', '!'] : ' '
+#     }
+#
+#     for i in enumerate(line):
+#         char = line[i]
+#         done = False
+#         for (key, sub) in substitutions:
+#             if char in key:
+#                 line[i] = sub
+#                 done == True
+#         if not done:
+#             line[i] = char
+#
+# Semantic Errors:
+# 1. char = line[i] --> Trying to set char to one of the letters in string line.
+# However, i is not an integer, so you cannot index line by i.
+# 2. Keys in dictionary need to be immutable. However, substitutions has lists
+# as some its keys, so they are invalid.
+# 3. for (key, sub) in substitutions: --> Trying to retrieve the key value pairs
+# from substitutions, but can't do it this way. May use the items() function in
+# order to access both the keys and the values of substitutions.
+# 4. line[i] = sub --> Strings are immutable. Since line is a string, you cannot
+# change the string at individual indices after it has already been created.
+# 5. done == True --> The equality of done and True is checked here instead of
+# setting done to True.
+# 6. FIND SOME MORE !!!!!
+
+# Problem 1.3
+# def rip(n):
+#  '''Resv ls ip'''
+#  l=len(n)
+#  if l<2: return #bc
+#  x=0
+#  l2=l//2
+#  while True:
+#         if x >=l2:
+#            break
+#         else:
+#            pass
+#         o= l-x-1
+#         (n[x],n[o])=(n[o],n[x])
+#         x+=1
+#
+# Style Errors:
+# 1. [INDENT_CONSISTENT]
+# 2. [BAD_NAMES]
+# 3. [STMTS_ON_LINE]
+# 4. [COMMENT_GRAMMATICAL]
+# 5. [OPERATOR_SPACE]
+# 6. [COMMA_SPACE]
+
+# ----------------------------------------------------------------------
 # Part 2: Simple functions.
-# ---------------------------------------------------------------------- 
+# ----------------------------------------------------------------------
 
 import random, sys
 
@@ -15,11 +114,11 @@ import random, sys
 # Problem 2.1
 #
 
-def draw_checkerboard(n):
+def draw_checkerboard(nrows, ncols):
     '''
-    Return a string that, when printed, will draw an (nrows x ncols) 
-    checkerboard on the terminal, where 'nrows' and 'ncols' are positive 
-    integers.  
+    Return a string that, when printed, will draw an (nrows x ncols)
+    checkerboard on the terminal, where 'nrows' and 'ncols' are positive
+    integers.
 
     The light squares are blank, the dark squares have a '#' character.
     The board is made up of lines and corners.
@@ -35,13 +134,23 @@ def draw_checkerboard(n):
     Return value: a string representing the checkerboard, suitable for printing
       to the terminal.  The string, when printed, will have a blank line before
       and after the checkerboard.
-      
+
     '''
 
     assert nrows >= 1
     assert ncols >= 1
 
-    pass  # TODO
+    checkerStr = '\n'
+    for row in range(nrows):
+        checkerStr += '+-' * ncols + '+\n'
+        line = ''
+        for col in range(ncols):
+            if (row + col + nrows) % 2 != 0:
+                line += '|#'
+            else:
+                line += '| '
+        checkerStr += line + '|\n'
+    return checkerStr + '+-' * ncols + '+\n'
 
 def test_draw_checkerboard():
     print(draw_checkerboard(1, 1))
@@ -67,8 +176,11 @@ def roll_count(lst):
 
     Argument: a list of length 5, of ints in the range [1-6]
     '''
-
-    pass  # TODO
+    countDict = {}
+    for n in range(1, 7):
+        if n in lst:
+            countDict[str(n)] = lst.count(n)
+    return countDict
 
 def yahtzee_classify(lst):
     '''
@@ -76,7 +188,7 @@ def yahtzee_classify(lst):
     they belong to.  The categories are:
 
       Yahtzee:         5 of one number
-      Four of a kind:  4 of one number 
+      Four of a kind:  4 of one number
       Full house:      3 of one number and 2 of another
       Large straight:  5 consecutive numbers
       Small straight:  4 consecutive numbers
@@ -88,18 +200,37 @@ def yahtzee_classify(lst):
     not a three of a kind.  Always choose the highest possible rank for the
     hand.  Ranks are ordered (from high to low):
 
-      Yahtzee > Four of a kind > Full house 
-        > Large straight > Small straight 
+      Yahtzee > Four of a kind > Full house
+        > Large straight > Small straight
         > Three of a kind > Chance
 
     Return the category as a string; one of:
       'YAHTZEE', 'FOUR OF A KIND', 'FULL HOUSE',
-      'LARGE STRAIGHT', 'SMALL STRAIGHT', 
+      'LARGE STRAIGHT', 'SMALL STRAIGHT',
       'THREE OF A KIND', 'CHANCE'
     '''
 
-    pass  # TODO
-
+    countRolls = roll_count(lst)
+    if max(countRolls.values()) == 5:
+        return 'YAHTZEE'
+    elif max(countRolls.values()) == 4:
+        return 'FOUR OF A KIND'
+    elif max(countRolls.values()) == 3:
+        if len(countRolls.values()) > 2:
+            return 'THREE OF A KIND'
+        else:
+            return 'FULL HOUSE'
+    else:
+        large = [set(['1', '2', '3', '4', '5']), set(['2', '3', '4', '5', '6'])]
+        small = [set(['1', '2', '3', '4']), set(['2', '3', '4', '5']),\
+                 set(['3', '4', '5', '6'])]
+        nonDups = set(countRolls.keys())
+        if nonDups in large:
+            return 'LARGE STRAIGHT'
+        elif nonDups in small:
+            return 'SMALL STRAIGHT'
+        else:
+            return 'CHANCE'
 
 # Supplied to students.
 def yahtzee_roll():
@@ -114,6 +245,16 @@ def yahtzee_roll():
     lst.sort()
     return lst
 
+# counter = 0
+# while True:
+#     x = yahtzee_roll()
+#     counter += 1
+#     if yahtzee_classify(x) == 'YAHTZEE':
+#         print(x)
+#         print(counter)
+#         break
+
+
 #
 # Problem 2.3
 #
@@ -125,27 +266,33 @@ def nim_done(lst):
     '''
     Return True if the list 'lst' contains all zeros.
     '''
+    return lst == [] or (len(set(lst)) == 1 and 0 in set(lst))
 
-    pass  # TODO
 
 def nim_sum(lst):
     '''
     Compute and return the Nim sum of a list of non-negative integers.
     The Nim sum is the exclusive or of all the items in the list.
     '''
-
-    pass  # TODO
+    if len(lst) == 0:
+        return 0
+    else:
+        return lst[0] ^ nim_sum(lst[1:])
 
 def nim_random_move(lst):
     '''
     Make a random move in a Nim game.
-    
+
     Argument: lst: the state of the game.
 
     Return value: a 2-tuple: (index of the random move, # to remove)
     '''
-
-    pass  # TODO
+    indices = []
+    for i in range(len(lst)):
+        if lst[i] > 0:
+            indices.append(i)
+    index = random.choice(indices)
+    return (index, random.randint(1, lst[index]))
 
 def nim_best_move(lst):
     '''
@@ -156,8 +303,8 @@ def nim_best_move(lst):
 
     Return value: a 2-tuple: (index of the best move, # to remove)
     '''
-
-    pass  # TODO
+    nSum = nim_sum(lst)
+    diffList = [x - (x ^ nSum) for x in lst]
 
 #
 # Supplied to students:
@@ -246,9 +393,9 @@ def nim_play(lst):
             print('You win!')
             break
 
-# ---------------------------------------------------------------------- 
+# ----------------------------------------------------------------------
 # Miniproject: The 3's game.
-# ---------------------------------------------------------------------- 
+# ----------------------------------------------------------------------
 
 def make_board():
     '''
@@ -508,7 +655,7 @@ def list_to_board(lst):
             if lst[k] != 0:
                 board[(i, j)] = lst[k]
             k += 1
-    return board 
+    return board
 
 def random_game():
     '''Play a random game.'''
@@ -521,4 +668,3 @@ def random_game():
         display(board)
         if game_over(board):
             break
-
