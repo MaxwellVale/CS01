@@ -35,9 +35,8 @@ import random, sys, time
 # the value of 0 instead of checking its equality with 0. The code should read
 # if n == 0: instead.
 # 4. while True --> There is no colon following the end of this while loop. \
-# 5. Unreachable code --> After the final return statement, there is another
-# line of code that should be run because it isn't inside of another else:. So,
-# this last line cannot be run when the if statement above is finally satisfied.
+# 5. Indentation --> The indent of the docstring and the subsequent code is not
+# aligned. The docstring and the following if statement are not lined up.
 
 # Problem 1.2
 # def obfuscate(line):
@@ -78,7 +77,7 @@ import random, sys, time
 # change the string at individual indices after it has already been created.
 # 5. done == True --> The equality of done and True is checked here instead of
 # setting done to True.
-# 6. FIND SOME MORE !!!!!
+# 6. ehh
 
 # Problem 1.3
 # def rip(n):
@@ -179,7 +178,7 @@ def roll_count(lst):
     countDict = {}
     for n in range(1, 7):
         if n in lst:
-            countDict[str(n)] = lst.count(n)
+            countDict[n] = lst.count(n)
     return countDict
 
 def yahtzee_classify(lst):
@@ -221,13 +220,13 @@ def yahtzee_classify(lst):
         else:
             return 'FULL HOUSE'
     else:
-        large = [set(['1', '2', '3', '4', '5']), set(['2', '3', '4', '5', '6'])]
-        small = [set(['1', '2', '3', '4']), set(['2', '3', '4', '5']),\
-                 set(['3', '4', '5', '6'])]
+        large = [set([1, 2, 3, 4, 5]), set([2, 3, 4, 5, 6])]
+        small = [set([1, 2, 3, 4]), set([2, 3, 4, 5]),\
+                 set([3, 4, 5, 6])]
         nonDups = set(countRolls.keys())
         if nonDups in large:
             return 'LARGE STRAIGHT'
-        elif nonDups in small:
+        elif nonDups in small or len(nonDups) == 5:
             return 'SMALL STRAIGHT'
         else:
             return 'CHANCE'
@@ -245,14 +244,10 @@ def yahtzee_roll():
     lst.sort()
     return lst
 
-# counter = 0
-# while True:
+# for i in range(12):
 #     x = yahtzee_roll()
-#     counter += 1
-#     if yahtzee_classify(x) == 'YAHTZEE':
-#         print(x)
-#         print(counter)
-#         break
+#     print(x)
+#     print(yahtzee_classify(x))
 
 
 #
@@ -305,6 +300,10 @@ def nim_best_move(lst):
     '''
     nSum = nim_sum(lst)
     diffList = [x - (x ^ nSum) for x in lst]
+    for n in diffList:
+        if n > 0:
+            return (diffList.index(n), n)
+    return nim_random_move(lst)
 
 #
 # Supplied to students:
@@ -411,8 +410,15 @@ def make_board():
     Arguments: none
     Return value: the board
     '''
-
-    pass  # TODO
+    board = {}
+    while len(board) < 9:
+        pos = (random.randint(0,3), random.randint(0,3))
+        if pos not in board:
+            if len(board) < 3:
+                board[pos] = len(board) + 1
+            else:
+                board[pos] = random.choice([1, 2, 3])
+    return board
 
 #
 # Problem 3.2
@@ -429,7 +435,11 @@ def get_row(board, row_n):
     '''
 
     assert 0 <= row_n < 4
-    pass  # TODO
+    r = [0, 0, 0, 0]
+    for row, col in board:
+        if row == row_n:
+            r[col] = board[(row, col)]
+    return r
 
 def get_column(board, col_n):
     '''
@@ -442,7 +452,11 @@ def get_column(board, col_n):
     '''
 
     assert 0 <= col_n < 4
-    pass  # TODO
+    c = [0, 0, 0, 0]
+    for row, col in board:
+        if col == col_n:
+            c[row] = board[(row, col)]
+    return c
 
 def put_row(board, row, row_n):
     '''
@@ -458,7 +472,11 @@ def put_row(board, row, row_n):
 
     assert 0 <= row_n < 4
     assert len(row) == 4
-    pass  # TODO
+    for i in range(4):
+        if row[i] != 0:
+            board[(row_n, i)] = row[i]
+        elif (row_n, i) in board:
+            del board[(row_n, i)]
 
 def put_column(board, col, col_n):
     '''
@@ -474,7 +492,11 @@ def put_column(board, col, col_n):
 
     assert 0 <= col_n < 4
     assert len(col) == 4
-    pass  # TODO
+    for i in range(4):
+        if col[i] != 0:
+            board[(i, col_n)] = col[i]
+        elif (i, col_n) in board:
+            del board[(i, col_n)]
 
 #
 # Problem 3.3
@@ -486,7 +508,7 @@ def can_merge(n1, n2):
     rules of the Threes game.
     '''
 
-    pass  # TODO
+    return (set([n1, n2]) == set([1, 2])) or (n1 > 2 and n2 > 2 and n1 == n2)
 
 
 def make_move_on_list(numbers):
@@ -501,7 +523,21 @@ def make_move_on_list(numbers):
     '''
 
     assert len(numbers) == 4
-    pass  # TODO
+    nums = numbers.copy()
+    haveMerged = False
+    for i in range(3):
+        index = i + 1
+        if can_merge(nums[index - 1], nums[index]):
+            if not haveMerged:
+                nums[index - 1] = nums[index - 1] + nums[index]
+                nums[index] = 0
+                haveMerged = True
+        elif nums[index - 1] == 0:
+            nums[index - 1] = nums[index]
+            nums[index] = 0
+    return nums
+
+
 
 #
 # Problem 3.4
@@ -525,7 +561,22 @@ def make_move(board, cmd):
     '''
 
     assert cmd in ['w', 'a', 's', 'd']
-    pass  # TODO
+    for i in range(4):
+        if cmd == 'w' or cmd == 's':
+            lst = get_column(board, i)
+        else:
+            lst = get_row(board, i)
+        if cmd == 's' or cmd == 'd':
+            lst.reverse()
+            lst = make_move_on_list(lst)
+            lst.reverse()
+        else:
+            lst = make_move_on_list(lst)
+        if cmd == 'w' or cmd == 's':
+            put_column(board, lst, i)
+        else:
+            put_row(board, lst, i)
+
 
 #
 # Problem 3.5
@@ -540,8 +591,13 @@ def game_over(board):
     Return value: True if the game is over, else False
     '''
 
-    pass  # TODO
-
+    b = board.copy()
+    cmds = ['w', 'a', 's', 'd']
+    for cmd in cmds:
+        make_move(b, cmd)
+        if b != board:
+            return False
+    return True
 
 
 #
@@ -566,7 +622,15 @@ def update(board, cmd):
     Return value: none; the board is updated in-place.
     '''
 
-    pass  # TODO
+    b = board.copy()
+    make_move(board, cmd)
+    if board != b:
+        positions = opposite_edge(cmd)
+        emptyPos = []
+        for pos in positions:
+            if pos not in board:
+                emptyPos.append(pos)
+        board[random.choice(emptyPos)] = random.choice([1,2,3])
 
 
 #
