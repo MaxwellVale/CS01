@@ -38,7 +38,8 @@ def draw_circle(x, y, r, color):
     Return
     Returns the handle of the drawn circle.
     '''
-    circle = canvas.create_oval(x - r, y - r, x + r, y + r, outline=color, fill=color)
+    circle = canvas.create_oval(x - r, y - r, x + r, y + r,
+                                outline=color, fill=color)
     return circle
 
 # Event handlers.
