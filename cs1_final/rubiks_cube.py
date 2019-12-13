@@ -95,6 +95,9 @@ class RubiksCube:
 
 
     def face_to_F(self, face):
+        '''
+        Rotates the cube so that 'face' is now facing forward (on the F face)
+        '''
         d = {'U' : ('X', '-'), 'D' : ('X', '+'), 'R' : ('Y', '+'), 'L' : ('Y', '-'), 'B' : ('Y', '+')}
         if face == 'F':
             return
@@ -104,6 +107,9 @@ class RubiksCube:
         self.rotate_cube(turn, dir)
 
     def F_to_face(self, face):
+        '''
+        Rotates the current F face to 'face' (one of UDFBRL)
+        '''
         self.face_to_F(face)
         if face != 'B':
             for i in range(2):

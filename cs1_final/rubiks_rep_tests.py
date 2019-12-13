@@ -337,15 +337,23 @@ def test_set_row():
             face = random.choice('UDFBLR')
             # Generate a random row index.
             row_index = random.randrange(size)
+
             # Generate a random row.
             row_values = random.sample(string.ascii_letters, size)
             rep.set_row(face, row_index, row_values)
+            retrieved = rep.get_row(face, row_index)
+            assert retrieved == row_values
+            # Make sure row returned is distinct from the row set.
+            assert retrieved is not row_values
+
+            # Generate a random row again.
+            row_values = random.sample(string.ascii_letters, size)
+            rep.set_row(face, row_index, row_values)
+            # Check for aliasing.
             row_values[0] = '@'  # a non-alphabetic character.
             retrieved = rep.get_row(face, row_index)
             assert retrieved[0] != '@'
-            # Make sure row returned is distinct from the row set.
-            assert row_values is not retrieved
-
+            
 def test_set_col():
     # Check that setting a column and then getting the same column
     # returns a copy of the same column, but not the exact same column.
@@ -356,22 +364,32 @@ def test_set_col():
             face = random.choice('UDFBLR')
             # Generate a random column index.
             col_index = random.randrange(size)
+
             # Generate a random column.
             col_values = random.sample(string.ascii_letters, size)
             rep.set_col(face, col_index, col_values)
             retrieved = rep.get_col(face, col_index)
-            assert col_values == retrieved
+            assert retrieved == col_values
             # Make sure column returned is distinct from the column set.
-            assert col_values is not retrieved
+            assert retrieved is not col_values
+
+            # Generate a random column again.
+            col_values = random.sample(string.ascii_letters, size)
+            rep.set_col(face, col_index, col_values)
+            # Check for aliasing.
+            col_values[0] = '@'  # a non-alphabetic character.
+            retrieved = rep.get_col(face, col_index)
+            assert retrieved[0] != '@'
 
 def test_get_face():
     # Check that face has the appropriate properties
     # (list, size*size).
-    # Check that it is not identical to the internal face.
+    # Check that it is equivalent but not identical to the internal face.
     for size in [2, 3]:
         rep = r.RubiksRep(size)
         for face in 'UDFBLR':
             contents = rep.get_face(face)
+            assert contents == rep.contents[face]
             assert contents is not rep.contents[face]
             assert type(contents) is list
             assert len(contents) == size

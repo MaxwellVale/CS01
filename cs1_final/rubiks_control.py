@@ -1,5 +1,5 @@
-# Name:
-# Login:
+# Name: Maxwell Vale
+# Login: mvale
 '''
 Rubik's cube controller (interactive interface).
 '''
